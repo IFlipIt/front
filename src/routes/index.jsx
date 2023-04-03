@@ -1,12 +1,11 @@
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from "react-router-dom";
 
-import { AppRoutes } from './app.routes'
-import { AuthRoutes } from './auth.routes'
+import { AppRoutesComponent } from "../pages/AppRoute";
 
-export function Routes(){
-    return(
-        <BrowserRouter>
-        <AuthRoutes/>
-        </BrowserRouter>
-    )
+export function Routes() {
+  return (
+    <BrowserRouter>
+      <AppRoutesComponent />
+    </BrowserRouter>
+  );
 }

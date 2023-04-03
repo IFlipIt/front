@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Container, Form } from "./styles.js"
 import { Input } from '../../components/Input'
 
@@ -7,11 +9,18 @@ import { Button } from "../../components/Button"
 
 import { Link } from 'react-router-dom'
 
-// import { useAuth } from "../../hooks/auth"
+import { useAuth } from "../../hooks/auth"
 
 export function SignIn() {
 
-  // const data = useAuth()
+  const {username, setUsername} = useState("")
+  const {password, setPassword} = useState("")
+
+  const { signIn } = useAuth()
+
+  function handleSignIn(){
+    signIn({ username, password })
+  }
 
   return (
     <Container>
@@ -20,9 +29,19 @@ export function SignIn() {
           <h1> Entrar </h1>
           <p>Insira suas credenciais para acessar o portal</p>
 
-          <Input placeholder="Usuário" type="text" icon={MdOutlinePersonOutline} />
-          <Input placeholder="Senha" type="text" icon={MdOutlinePersonOutline} />
-        <Button type="submit" title="Entrar"/>
+          <Input 
+          placeholder="Usuário" 
+          type="text" 
+          icon={MdOutlinePersonOutline} 
+          onChange = {e => setUsername(e.target.value)}
+          />
+          <Input 
+          placeholder="Senha" 
+          type="text" 
+          icon={MdOutlinePersonOutline} 
+          onChange = {e => setPassword(e.target.value)}
+          />
+        <Button title="Entrar" onClick={handleSignIn} />
           
       </Form>
 

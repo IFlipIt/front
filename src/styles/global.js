@@ -2,6 +2,9 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
+    #root {
+        height: 100vh;
+    }
 
     * {
         margin: 0;
@@ -30,4 +33,4 @@ export default createGlobalStyle`
     }
 
 
-`
+`;

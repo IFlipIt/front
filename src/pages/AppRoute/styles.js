@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 100vh;
   display: grid;
   grid-template-columns: 268px auto;
-  grid-template-rows: 78px auto;
+  grid-template-rows: 78px calc(100% - 78px);
   grid-template-areas: "brand header" "menu content";
 
   background-color: ${({ theme }) => theme.BODY_BACKGROUND};
@@ -54,6 +54,7 @@ export const Menu = styled.ul`
 `;
 
 export const Content = styled.div`
+  width: 100%;
   grid-area: content;
   padding: 0 24px;
 `;

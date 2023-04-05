@@ -1,15 +1,13 @@
 import { useState } from "react";
 
 import { Container, Form } from "./styles.js";
-import { Input } from "../../components/Input";
 
-import { MdOutlinePersonOutline } from "react-icons/md";
+import { MdLockOutline, MdOutlinePersonOutline } from "react-icons/md";
 
 import { Button } from "../../components/Button";
 
-import { Link } from "react-router-dom";
-
 import { useAuth } from "../../hooks/auth";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 export function SignIn() {
   const [username, setUsername] = useState("");
@@ -30,18 +28,32 @@ export function SignIn() {
         <h1> Entrar </h1>
         <p>Insira suas credenciais para acessar o portal</p>
 
-        <Input
-          placeholder="Usuário"
-          type="text"
-          icon={MdOutlinePersonOutline}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Input
-          placeholder="Senha"
-          type="text"
-          icon={MdOutlinePersonOutline}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <InputGroup>
+          <InputLeftElement
+            fontSize="1.5rem"
+            pointerEvents="none"
+            children={<MdOutlinePersonOutline color="gray.300" />}
+          />
+          <Input
+            size="lg"
+            mb="1rem"
+            placeholder="Usuário"
+            type="text"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </InputGroup>
+        <InputGroup>
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdLockOutline color="gray.300" />}
+          />
+          <Input
+            size="lg"
+            placeholder="Senha"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </InputGroup>
         <Button title="Entrar" type="submit" />
       </Form>
     </Container>

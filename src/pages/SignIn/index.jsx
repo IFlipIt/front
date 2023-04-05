@@ -1,31 +1,49 @@
-import { Container, Form } from "./styles.js"
-import { Input } from '../../components/Input'
+import { useState } from "react";
 
-import { MdOutlinePersonOutline } from 'react-icons/md'
+import { Container, Form } from "./styles.js";
+import { Input } from "../../components/Input";
 
-import { Button } from "../../components/Button"
+import { MdOutlinePersonOutline } from "react-icons/md";
 
-import { Link } from 'react-router-dom'
+import { Button } from "../../components/Button";
 
-// import { useAuth } from "../../hooks/auth"
+import { Link } from "react-router-dom";
+
+import { useAuth } from "../../hooks/auth";
 
 export function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  // const data = useAuth()
+  const { signIn } = useAuth();
+
+  async function handleSignIn(event) {
+    // prevent default
+    event.preventDefault();
+    await signIn({ username, password });
+  }
 
   return (
     <Container>
       <h1>Fecularia Pirangunho</h1>
-      <Form>
-          <h1> Entrar </h1>
-          <p>Insira suas credenciais para acessar o portal</p>
+      <Form onSubmit={handleSignIn}>
+        <h1> Entrar </h1>
+        <p>Insira suas credenciais para acessar o portal</p>
 
-          <Input placeholder="Usuário" type="text" icon={MdOutlinePersonOutline} />
-          <Input placeholder="Senha" type="text" icon={MdOutlinePersonOutline} />
-        <Button type="submit" title="Entrar"/>
-          
+        <Input
+          placeholder="Usuário"
+          type="text"
+          icon={MdOutlinePersonOutline}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Input
+          placeholder="Senha"
+          type="text"
+          icon={MdOutlinePersonOutline}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button title="Entrar" type="submit" />
       </Form>
-
     </Container>
-  )
+  );
 }

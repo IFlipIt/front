@@ -25,7 +25,7 @@ export function SignIn() {
 
   return (
     <Container>
-      <h1>Fecularia Pirangunho</h1>
+      <h1 className="text-white">Fecularia Pirangunho</h1>
       <Form onSubmit={handleSignIn}>
         <h1> Entrar </h1>
         <p>Insira suas credenciais para acessar o portal</p>

@@ -1,50 +1,49 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-import { Container, Form } from "./styles.js"
-import { Input } from '../../components/Input'
+import { Container, Form } from "./styles.js";
+import { Input } from "../../components/Input";
 
-import { MdOutlinePersonOutline } from 'react-icons/md'
+import { MdOutlinePersonOutline } from "react-icons/md";
 
-import { Button } from "../../components/Button"
+import { Button } from "../../components/Button";
 
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
-import { useAuth } from "../../hooks/auth"
+import { useAuth } from "../../hooks/auth";
 
 export function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const {username, setUsername} = useState("")
-  const {password, setPassword} = useState("")
+  const { signIn } = useAuth();
 
-  const { signIn } = useAuth()
-
-  function handleSignIn(){
-    signIn({ username, password })
+  async function handleSignIn(event) {
+    // prevent default
+    event.preventDefault();
+    await signIn({ username, password });
   }
 
   return (
     <Container>
       <h1>Fecularia Pirangunho</h1>
-      <Form>
-          <h1> Entrar </h1>
-          <p>Insira suas credenciais para acessar o portal</p>
+      <Form onSubmit={handleSignIn}>
+        <h1> Entrar </h1>
+        <p>Insira suas credenciais para acessar o portal</p>
 
-          <Input 
-          placeholder="Usuário" 
-          type="text" 
-          icon={MdOutlinePersonOutline} 
-          onChange = {e => setUsername(e.target.value)}
-          />
-          <Input 
-          placeholder="Senha" 
-          type="text" 
-          icon={MdOutlinePersonOutline} 
-          onChange = {e => setPassword(e.target.value)}
-          />
-        <Button title="Entrar" onClick={handleSignIn} />
-          
+        <Input
+          placeholder="Usuário"
+          type="text"
+          icon={MdOutlinePersonOutline}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Input
+          placeholder="Senha"
+          type="text"
+          icon={MdOutlinePersonOutline}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button title="Entrar" type="submit" />
       </Form>
-
     </Container>
-  )
+  );
 }

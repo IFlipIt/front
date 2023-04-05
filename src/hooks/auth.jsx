@@ -1,64 +1,63 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { api } from '../services/api'
+import { api } from "../services/api";
 
-export const AuthContext = createContext({})
+export const AuthContext = createContext({});
 
-function AuthProvider({ children }){ 
+function AuthProvider({ children }) {
+  const [idUser, setIdUser] = useState("");
 
-    async function signIn({ username, password }){
-        try {
-              const response = await api.post('/sessions', {username, password})
+  async function signIn({ username, password }) {
+    try {
+      const response = await api.get("/auth/login", {
+        auth: { username, password },
+      });
 
-              const { idUser, token } = response.data;
+      const { idUser, token } = response.data;
+      setIdUser(idUser);
 
-              localStorage.setItem (`@erp:idUser`, JSON.stringify(idUser))
-              localStorage.setItem (`@erp:token`, token)
+      localStorage.setItem(`@erp:idUser`, idUser);
+      localStorage.setItem(`@erp:token`, token);
 
-              api.defaults.headers.common['Authorization'] = 'Bearer ${token}'
-              setData({ idUser, token })
-        
-            } catch (error.response) {
-            alert(error.response.data.message)
-            } else {
-            alert("Nao foi possivel entrar")
-            }
-
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setData({ idUser, token });
+    } catch (error) {
+      alert(error);
     }
+  }
 
-    function signOut(){
-        const token = localStorage.removeItem("@erp:token")
-        const idUser = localStorage.removeItem("@erp:idUser")
-        
-        setData({});
+  function signOut() {
+    const token = localStorage.removeItem("@erp:token");
+    const idUser = localStorage.removeItem("@erp:idUser");
+
+    setData({});
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("@erp:token");
+    const idUser = localStorage.getItem("@erp:idUser");
+
+    if (token && idUser) {
+      api.defaults.headers.common["Authorization"] = "Bearer ${token}";
+
+      setData({
+        token,
+        idUser: JSON.parse(idUser),
+      });
     }
+  }, []);
 
-    useEffect(() => {
-        const token = localStorage.getItem("@erp:token")
-        const idUser = localStorage.getItem("@erp:idUser")
-        
-        if(token && idUser) {
-            api.defaults.headers.common['Authorization'] = 'Bearer ${token}'
-        
-            setData({
-                token,
-                idUser: JSON.parse(idUser)
-            })
-        }
-    
-    }, [])
-
-    return (
-    <MyContext.Provider value={{ signIn, signOut,  idUser: data.idUser }}> 
-        {children}
-    </MyContext.Provider>
-    )
+  return (
+    <AuthContext.Provider value={{ signIn, signOut, idUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-function useAuth(){
-    const context = useContext(AuthContext)
+function useAuth() {
+  const context = useContext(AuthContext);
 
-    return context
+  return context;
 }
 
-export { AuthProvider, useAuth } 
+export { AuthProvider, useAuth };
